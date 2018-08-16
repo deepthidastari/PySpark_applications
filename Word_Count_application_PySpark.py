@@ -8,7 +8,6 @@ wordsDF.printSchema()
 #Using dataframe function to add an 's'
 
 from pyspark.sql.functions import lit, concat
-
 pluralDF = wordsDF.select(concat(wordsDF.word,lit("s")).alias('word'))
 pluralDF.show()
 
@@ -82,7 +81,6 @@ sentenceDF.show(truncate=False)
 #Load a text file
 
 fileName = "<full_path_to_the_file>/<filename>.txt"
-
 shakespeareDF = sqlContext.read.text(fileName).select(removePunctuation(col('value')))
 shakespeareDF.show(15, truncate=False) 
  
@@ -101,7 +99,3 @@ from pyspark.sql.functions import desc
 topWordsAndCountsDF1 = wordCount(shakeWordsDF)
 topWordsAndCountsDF = topWordsAndCountsDF1.orderBy(topWordsAndCountsDF1['count'].desc())
 topWordsAndCountsDF.show()
- 
-
-
-
