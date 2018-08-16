@@ -1,6 +1,6 @@
 #Creating a base DataFrame and performing operations 
 
-wordsDF = sqlContext.createDataFrame([('cat',), ('elephant',), ('rat',), ('rat',), ('cat', )], ['word'])
+wordsDF = sqlContext.createDataFrame([('the',), ('world',), ('is',), ('is',), ('the', )], ['word'])
 wordsDF.show()
 print type(wordsDF)
 wordsDF.printSchema()
@@ -70,7 +70,7 @@ def removePunctuation(column):
     column = trim(lower(column)).alias('column')
     return column
 
-sentenceDF = sqlContext.createDataFrame([('Hi, you!',),
+sentenceDF = sqlContext.createDataFrame([('Hey, there!',),
                                          (' No under_score!',),
                                          (' *      Remove punctuation then spaces  * ',)], ['sentence'])
 sentenceDF.show(truncate=False)
