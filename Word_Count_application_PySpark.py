@@ -1,39 +1,32 @@
 #Creating a base DataFrame and performing operations 
-
 wordsDF = sqlContext.createDataFrame([('the',), ('world',), ('is',), ('is',), ('the', )], ['word'])
 wordsDF.show()
 print type(wordsDF)
 wordsDF.printSchema()
 
 #Using dataframe function to add an 's'
-
 from pyspark.sql.functions import lit, concat
 pluralDF = wordsDF.select(concat(wordsDF.word,lit("s")).alias('word'))
 pluralDF.show()
 
 #Find length of each word
-
 from pyspark.sql.functions import length
 pluralLengthsDF = pluralDF.select(length('word'))
 pluralLengthsDF.show()
 
 #Counting with SparkSQL
-
 wordCountsDF = (wordsDF.groupBy('word').count())
 wordCountsDF.show()
 
 #Finding unique words and mean value
-
 uniqueWordsCount = wordCountsDF.count()
 print uniqueWordsCount
 
-#Means of groups using DataFrames 
-
+#Means of groups using DataFrames
 averageCount = (wordCountsDF.groupBy().avg('count').first()[0])
 print averageCount
 
 #The wordCount function
-
 def wordCount(wordListDF):
     """Creates a DataFrame with word counts.
 
@@ -49,7 +42,6 @@ def wordCount(wordListDF):
 wordCount(wordsDF).show()
 
 #Handling capitalization and punctuation
-
 from pyspark.sql.functions import regexp_replace, trim, col, lower
 def removePunctuation(column):
     """Removes punctuation, changes to lower case, and strips leading and trailing spaces.
@@ -79,13 +71,11 @@ sentenceDF.show(truncate=False)
  
  
 #Load a text file
-
 fileName = "<full_path_to_the_file>/<filename>.txt"
 shakespeareDF = sqlContext.read.text(fileName).select(removePunctuation(col('value')))
 shakespeareDF.show(15, truncate=False) 
  
 #Extract words from lines
-
 from pyspark.sql.functions import split, explode
 shakeWordsDF1 = (shakespeareDF.select(split(shakespeareDF.column,' ').alias('word')))
 shakeWordsDF2 = shakeWordsDF1.select(explode(shakeWordsDF1.word).alias('word'))
